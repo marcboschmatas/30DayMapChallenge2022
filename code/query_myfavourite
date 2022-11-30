@@ -1,0 +1,16 @@
+WITH
+g AS (SELECT name,way
+	 FROM planet_osm_polygon
+	 WHERE name LIKE '%natural de les Gavarres'
+	 AND boundary = 'protected_area')
+SELECT l.highway,l.way
+FROM planet_osm_line l, g
+WHERE (highway in ('track','cycleway')
+OR bicycle = 'yes')
+AND ST_INTERSECTS(l.way, g.way);
+--fitor & natural park
+SELECT name,way
+FROM planet_osm_polygon
+WHERE name = 'Santa Coloma de Fitor'
+OR (name LIKE '%natural de les Gavarres'
+	 AND boundary = 'protected_area');
